@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-11-2022 a las 22:38:09
+-- Tiempo de generación: 28-11-2022 a las 23:47:35
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.1.12
 
@@ -164,13 +164,15 @@ INSERT INTO `ventas` (`pk_codigo`, `fk_id_tbl_clientes`, `fk_id_tbl_vendedores`,
 -- Indices de la tabla `ciudades`
 --
 ALTER TABLE `ciudades`
-  ADD PRIMARY KEY (`pk_codigo`);
+  ADD PRIMARY KEY (`pk_codigo`),
+  ADD UNIQUE KEY `fk_codigo_tbl_departamentos` (`fk_codigo_tbl_departamentos`);
 
 --
 -- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`pk_codigo`);
+  ADD PRIMARY KEY (`pk_codigo`),
+  ADD KEY `fk_codigo_tbl_ciudades` (`fk_codigo_tbl_ciudades`);
 
 --
 -- Indices de la tabla `departamentos`
@@ -188,13 +190,47 @@ ALTER TABLE `juguetes`
 -- Indices de la tabla `vendedores`
 --
 ALTER TABLE `vendedores`
-  ADD PRIMARY KEY (`pk_id`);
+  ADD PRIMARY KEY (`pk_id`),
+  ADD KEY `fk_codigo_tbl_ciudades` (`fk_codigo_tbl_ciudades`);
 
 --
 -- Indices de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  ADD PRIMARY KEY (`pk_codigo`);
+  ADD PRIMARY KEY (`pk_codigo`),
+  ADD KEY `fk_id_tbl_clientes` (`fk_id_tbl_clientes`,`fk_id_tbl_vendedores`,`fk_codigo_tbl_juguetes`),
+  ADD KEY `fk_id_tbl_vendedores` (`fk_id_tbl_vendedores`),
+  ADD KEY `fk_codigo_tbl_juguetes` (`fk_codigo_tbl_juguetes`);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `ciudades`
+--
+ALTER TABLE `ciudades`
+  ADD CONSTRAINT `ciudades_ibfk_1` FOREIGN KEY (`fk_codigo_tbl_departamentos`) REFERENCES `departamentos` (`pk_codigo`);
+
+--
+-- Filtros para la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD CONSTRAINT `clientes_ibfk_1` FOREIGN KEY (`fk_codigo_tbl_ciudades`) REFERENCES `ciudades` (`pk_codigo`);
+
+--
+-- Filtros para la tabla `vendedores`
+--
+ALTER TABLE `vendedores`
+  ADD CONSTRAINT `vendedores_ibfk_1` FOREIGN KEY (`fk_codigo_tbl_ciudades`) REFERENCES `ciudades` (`pk_codigo`);
+
+--
+-- Filtros para la tabla `ventas`
+--
+ALTER TABLE `ventas`
+  ADD CONSTRAINT `ventas_ibfk_1` FOREIGN KEY (`fk_id_tbl_vendedores`) REFERENCES `vendedores` (`pk_id`),
+  ADD CONSTRAINT `ventas_ibfk_2` FOREIGN KEY (`fk_id_tbl_clientes`) REFERENCES `clientes` (`pk_codigo`),
+  ADD CONSTRAINT `ventas_ibfk_3` FOREIGN KEY (`fk_codigo_tbl_juguetes`) REFERENCES `juguetes` (`pk_codigo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
