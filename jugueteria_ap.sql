@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-11-2022 a las 23:47:35
+-- Tiempo de generación: 29-11-2022 a las 00:19:20
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.1.12
 
@@ -154,7 +154,8 @@ CREATE TABLE `ventas` (
 
 INSERT INTO `ventas` (`pk_codigo`, `fk_id_tbl_clientes`, `fk_id_tbl_vendedores`, `fk_codigo_tbl_juguetes`, `cant_vendidos`, `valor`, `fecha`) VALUES
 (1, 123, 54, 2, 10, 7000, '2018-06-23'),
-(2, 456, 55, 1, 3, 5000, '2020-06-02');
+(2, 456, 55, 1, 3, 5000, '2020-06-02'),
+(3, 348, 57, 1, 4, 8000, '2022-12-05');
 
 --
 -- Índices para tablas volcadas
