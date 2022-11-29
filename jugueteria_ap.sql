@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-11-2022 a las 00:19:20
+-- Tiempo de generación: 29-11-2022 a las 20:45:11
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.1.12
 
@@ -49,7 +49,7 @@ INSERT INTO `ciudades` (`pk_codigo`, `nombre`, `fk_codigo_tbl_departamentos`) VA
 --
 
 CREATE TABLE `clientes` (
-  `pk_codigo` int(12) NOT NULL,
+  `pk_id` int(12) NOT NULL,
   `nombre` varchar(30) DEFAULT NULL,
   `direccion` varchar(20) DEFAULT NULL,
   `telefono` int(10) DEFAULT NULL,
@@ -61,10 +61,12 @@ CREATE TABLE `clientes` (
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`pk_codigo`, `nombre`, `direccion`, `telefono`, `fk_codigo_tbl_ciudades`, `sexo`) VALUES
+INSERT INTO `clientes` (`pk_id`, `nombre`, `direccion`, `telefono`, `fk_codigo_tbl_ciudades`, `sexo`) VALUES
 (123, 'Natalia Bermudez', 'Cll 45 No 34-56', 321474836, 101, 'F'),
 (348, 'Cecilia Ortiz', 'Cra 43 No 75-89', 3435789, 103, 'F'),
-(456, 'Camilo Miranda', 'Cll 71B No 45-67', 30024568, 101, 'M');
+(456, 'Camilo Miranda', 'Cll 71B No 45-67', 30024568, 101, 'M'),
+(593, 'Jose Luis', 'calle 9 #10 -17', 33261118, 102, 'f'),
+(1001, 'Carlos Jose', 'Cra 11 #10 - 10', 33261118, 103, 'f');
 
 -- --------------------------------------------------------
 
@@ -106,7 +108,9 @@ CREATE TABLE `juguetes` (
 
 INSERT INTO `juguetes` (`pk_codigo`, `descripcion`, `valor`, `cantidad`, `tipo`) VALUES
 (1, 'parques', 2000, 50, 'mesa'),
-(2, 'movil ', 7000, 4, 'didactico');
+(2, 'movil ', 7000, 16, 'didactico'),
+(3, 'barbie', 10000, 25, 'didactico'),
+(4, 'avion', 10000, 30, 'didactico');
 
 -- --------------------------------------------------------
 
@@ -153,9 +157,11 @@ CREATE TABLE `ventas` (
 --
 
 INSERT INTO `ventas` (`pk_codigo`, `fk_id_tbl_clientes`, `fk_id_tbl_vendedores`, `fk_codigo_tbl_juguetes`, `cant_vendidos`, `valor`, `fecha`) VALUES
-(1, 123, 54, 2, 10, 7000, '2018-06-23'),
-(2, 456, 55, 1, 3, 5000, '2020-06-02'),
-(3, 348, 57, 1, 4, 8000, '2022-12-05');
+(1, 123, 54, 2, 10, 7000, '2022-06-23'),
+(2, 456, 55, 1, 3, 5000, '2022-06-01'),
+(3, 348, 57, 1, 4, 8000, '2022-12-05'),
+(4, 1001, 57, 2, 5, 14, '2022-12-02'),
+(5, 593, 56, 4, 8, 80000, '2022-12-24');
 
 --
 -- Índices para tablas volcadas
@@ -172,7 +178,7 @@ ALTER TABLE `ciudades`
 -- Indices de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`pk_codigo`),
+  ADD PRIMARY KEY (`pk_id`),
   ADD KEY `fk_codigo_tbl_ciudades` (`fk_codigo_tbl_ciudades`);
 
 --
@@ -230,7 +236,7 @@ ALTER TABLE `vendedores`
 --
 ALTER TABLE `ventas`
   ADD CONSTRAINT `ventas_ibfk_1` FOREIGN KEY (`fk_id_tbl_vendedores`) REFERENCES `vendedores` (`pk_id`),
-  ADD CONSTRAINT `ventas_ibfk_2` FOREIGN KEY (`fk_id_tbl_clientes`) REFERENCES `clientes` (`pk_codigo`),
+  ADD CONSTRAINT `ventas_ibfk_2` FOREIGN KEY (`fk_id_tbl_clientes`) REFERENCES `clientes` (`pk_id`),
   ADD CONSTRAINT `ventas_ibfk_3` FOREIGN KEY (`fk_codigo_tbl_juguetes`) REFERENCES `juguetes` (`pk_codigo`);
 COMMIT;
 
